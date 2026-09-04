@@ -1,15 +1,15 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class DeathAnimation : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [Header("Unity Setup")]
+    public ParticleSystem 
+    
 
     // Update is called once per frame
-    void Update()
+    public void Destory()
     {
         
     }

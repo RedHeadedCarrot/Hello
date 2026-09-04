@@ -32,6 +32,8 @@ public class CameraMovement : MonoBehaviour
         Vector3 lookPosition = player.transform.position - lookDirection * offset.magnitude;
         transform.SetPositionAndRotation(lookPosition, lookRotation);
         camRotation += rotationSpeed * Time.deltaTime * input;
+        if(p==null)
+        return
     }
 
 
