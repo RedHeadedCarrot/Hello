@@ -1,43 +1,46 @@
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CameraController : MonoBehaviour
+public class CameraMovement : MonoBehaviour
 {
+
+    // Reference to the player GameObject.
     public GameObject player;
-    private Vector3 offset;
-    public Vector3 camrotation = new Vector2(45f, 0f);
 
-    private float movementX;
-    private float movementY;
-    
+    // The distance between the camera and the player.
+    public Vector3 offset;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public Vector2 camRotation = new Vector2(45f, 0f);
+    public Vector2 input = new Vector2();
+
+    public float rotationSpeed = 10f;
+
+    // Start is called before the first frame update.
     void Start()
     {
+        // Calculate the initial offset between the camera's position and the player's position.
         offset = transform.position - player.transform.position;
     }
 
-    // LateUpdate is called once per frame, after all Update calls
+    // LateUpdate is called once per frame after all Update functions have been completed.
     void LateUpdate()
     {
-        transform.position = player.transform.position + offset;
-        Quaternion rot = Quaternion.Euler(camrotation);
-        Vector3 lookDirection = rot * Vector3.forward;
-        Vector3 lookPosition = (player.transform.position - lookDirection) * offset.magnitude;
-        transform.SetPositionAndRotation(lookPosition, rot);
-
-
+        // Orbit camera based on target
+        Quaternion lookRotation = Quaternion.Euler(camRotation);
+        Vector3 lookDirection = lookRotation * Vector3.forward;
+        Vector3 lookPosition = player.transform.position - lookDirection * offset.magnitude;
+        transform.SetPositionAndRotation(lookPosition, lookRotation);
+        camRotation += rotationSpeed * Time.deltaTime * input;
     }
-    private void OnLook(InputValue movementValue)
+
+
+
+    private void OnLook(InputValue inputValue)
     {
-        Vector2 movementVector = movementValue.Get<Vector2>();
-
-        movementX = movementVector.x;
-        movementY = movementVector.y;
-        
-
+        Vector2 tInput = inputValue.Get<Vector2>();
+        input.x = tInput.y;
+        input.y = tInput.x;
 
     }
-
-
 }
